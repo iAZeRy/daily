@@ -1,0 +1,1499 @@
+<!doctype html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f3ef">
+  <meta name="description" content="HEUTE. ist dein täglicher Mix aus Fragen, Wissen, Humor und kleinen Herausforderungen.">
+  <title>HEUTE. · Dein Daily</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23111111'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23d9ff57'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f2ed;
+      --surface: #ffffff;
+      --surface-soft: #e9e8e2;
+      --text: #151515;
+      --muted: #686862;
+      --line: rgba(21, 21, 21, 0.12);
+      --shadow: 0 18px 50px rgba(24, 24, 20, 0.08);
+      --accent: hsl(76 100% 66%);
+      --accent-strong: hsl(76 76% 45%);
+      --accent-ink: #11140a;
+      --danger: #d93a52;
+      --success: #16825d;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max-width: 1180px;
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0d0d0d;
+      --surface: #181818;
+      --surface-soft: #242424;
+      --text: #f5f5f0;
+      --muted: #aaa9a2;
+      --line: rgba(255, 255, 255, 0.12);
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+      --accent-ink: #11140a;
+      --danger: #ff7184;
+      --success: #6bd6ad;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 84% -10%, color-mix(in srgb, var(--accent) 24%, transparent) 0, transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      transition: background-color 220ms ease, color 220ms ease;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button,
+    [role="button"] {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--accent-strong) 72%, transparent);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      transform: translateY(-160%);
+      border-radius: 999px;
+      background: var(--text);
+      color: var(--bg);
+      padding: 10px 16px;
+      text-decoration: none;
+      transition: transform 150ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .app-shell {
+      width: min(calc(100% - 28px), var(--max-width));
+      margin: 0 auto;
+      padding: 24px 0 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 44px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      font-size: clamp(1.25rem, 4vw, 1.55rem);
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      text-decoration: none;
+    }
+
+    .brand-dot {
+      width: 17px;
+      height: 17px;
+      border: 4px solid var(--text);
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .streak,
+    .icon-button,
+    .primary-button,
+    .filter-button,
+    .choice-button,
+    .small-button {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      cursor: pointer;
+      transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+    }
+
+    .streak {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.88rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .streak-flame {
+      color: #ff7a00;
+      font-size: 1rem;
+    }
+
+    .icon-button {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 50%;
+      font-size: 1.05rem;
+    }
+
+    .icon-button:hover,
+    .small-button:hover,
+    .filter-button:hover,
+    .choice-button:hover,
+    .primary-button:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--text) 26%, transparent);
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(2.7rem, 8vw, 6.7rem);
+      font-weight: 900;
+      letter-spacing: -0.075em;
+      line-height: 0.88;
+    }
+
+    .intro-copy {
+      max-width: 450px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+    }
+
+    .progress-ring {
+      display: grid;
+      width: 118px;
+      height: 118px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-strong) var(--progress, 0%), var(--surface-soft) 0);
+      box-shadow: var(--shadow);
+    }
+
+    .progress-ring::before {
+      grid-area: 1 / 1;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: var(--bg);
+      content: "";
+    }
+
+    .progress-text {
+      z-index: 1;
+      display: grid;
+      text-align: center;
+    }
+
+    .progress-text strong {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .progress-text span {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 0 -8px 24px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(18px);
+    }
+
+    .filters {
+      display: flex;
+      min-width: 0;
+      gap: 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-button {
+      min-height: 40px;
+      border-color: transparent;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .filter-button[aria-pressed="true"] {
+      border-color: var(--text);
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .small-button {
+      display: inline-flex;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .daily-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      --card-bg: var(--surface);
+      position: relative;
+      display: flex;
+      min-height: 265px;
+      grid-column: span 4;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 65px rgba(24, 24, 20, 0.13);
+    }
+
+    .card.wide {
+      grid-column: span 8;
+    }
+
+    .card.full {
+      grid-column: 1 / -1;
+    }
+
+    .card.tall {
+      min-height: 390px;
+    }
+
+    .card.accent {
+      --card-bg: var(--accent);
+      border-color: transparent;
+      color: var(--accent-ink);
+    }
+
+    .card.dark {
+      --card-bg: #171717;
+      border-color: transparent;
+      color: #f7f7f2;
+    }
+
+    .card.soft {
+      --card-bg: color-mix(in srgb, var(--accent) 20%, var(--surface));
+    }
+
+    .card[hidden] {
+      display: none;
+    }
+
+    .card-inner {
+      display: flex;
+      height: 100%;
+      flex: 1;
+      flex-direction: column;
+      padding: 25px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .card-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 0.085em;
+      text-transform: uppercase;
+    }
+
+    .card-label::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      content: "";
+      opacity: 0.65;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .card-action {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+      color: inherit;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 150ms ease, background-color 150ms ease;
+    }
+
+    .card-action:hover {
+      transform: scale(1.06);
+    }
+
+    .card-action.favorite[aria-pressed="true"] {
+      border-color: transparent;
+      background: #ff5572;
+      color: #fff;
+    }
+
+    .card h2 {
+      max-width: 19ch;
+      margin: auto 0 14px;
+      font-size: clamp(1.65rem, 3vw, 2.8rem);
+      font-weight: 850;
+      letter-spacing: -0.045em;
+      line-height: 1.08;
+    }
+
+    .card:not(.wide):not(.full) h2 {
+      font-size: clamp(1.45rem, 2.3vw, 2.15rem);
+    }
+
+    .card p {
+      margin: 0;
+    }
+
+    .card-note {
+      color: color-mix(in srgb, currentColor 67%, transparent);
+      font-size: 0.88rem;
+    }
+
+    .answer-field {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 18px;
+      resize: vertical;
+      border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+      border-radius: var(--radius-md);
+      background: color-mix(in srgb, var(--card-bg) 82%, var(--bg));
+      color: inherit;
+      padding: 13px 15px;
+    }
+
+    textarea.answer-field {
+      min-height: 96px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .input-row .answer-field {
+      min-width: 0;
+      margin-top: 0;
+    }
+
+    .primary-button {
+      min-height: 48px;
+      border-color: var(--text);
+      border-radius: var(--radius-md);
+      background: var(--text);
+      color: var(--bg);
+      padding: 10px 18px;
+      font-weight: 800;
+    }
+
+    .dark .primary-button {
+      border-color: #f7f7f2;
+      background: #f7f7f2;
+      color: #171717;
+    }
+
+    .feedback {
+      min-height: 24px;
+      margin-top: 10px !important;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .feedback.error {
+      color: var(--danger);
+    }
+
+    .feedback.success {
+      color: var(--success);
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: stretch;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .choice-button {
+      min-height: 110px;
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      font-weight: 850;
+      line-height: 1.2;
+    }
+
+    .card.dark .choices .choice-button {
+      border-color: rgba(255, 255, 255, 0.88);
+      background: #f7f7f2;
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+    }
+
+    .card.dark .choices .choice-button:hover {
+      background: #ffffff;
+    }
+
+    .choice-button[aria-pressed="true"] {
+      border-color: var(--accent-strong);
+      background: var(--accent);
+      color: var(--accent-ink);
+    }
+
+    .choice-or {
+      align-self: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .dark .choice-or {
+      color: #a8a8a2;
+    }
+
+    .challenge-button {
+      align-self: flex-start;
+      margin-top: 20px;
+    }
+
+    .challenge-button.done {
+      border-color: var(--success);
+      background: color-mix(in srgb, var(--success) 15%, var(--surface));
+      color: var(--success);
+    }
+
+    .number-art {
+      position: absolute;
+      right: -18px;
+      bottom: -55px;
+      z-index: -1;
+      color: color-mix(in srgb, currentColor 9%, transparent);
+      font-size: 14rem;
+      font-weight: 950;
+      letter-spacing: -0.12em;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .empty-state {
+      display: none;
+      grid-column: 1 / -1;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-xl);
+      padding: 58px 24px;
+      text-align: center;
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
+    .empty-state h2 {
+      margin: 0 0 8px;
+      font-size: 1.45rem;
+    }
+
+    .empty-state p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 38px;
+      padding: 22px 4px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 80;
+      max-width: min(390px, calc(100vw - 36px));
+      transform: translateY(140%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: #171717;
+      color: #fff;
+      padding: 12px 18px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      font-size: 0.88rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: transform 220ms ease, opacity 220ms ease;
+    }
+
+    .toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 880px) {
+      .card,
+      .card.wide {
+        grid-column: span 6;
+      }
+
+      .card.full {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .app-shell {
+        width: min(calc(100% - 20px), var(--max-width));
+        padding-top: 14px;
+      }
+
+      .topbar {
+        margin-bottom: 30px;
+      }
+
+      .streak-label {
+        display: none;
+      }
+
+      .intro {
+        grid-template-columns: minmax(0, 1fr) 84px;
+        align-items: start;
+        gap: 12px;
+      }
+
+      h1 {
+        font-size: clamp(3.1rem, 16vw, 5.4rem);
+      }
+
+      .intro-copy {
+        grid-column: 1 / -1;
+        margin-top: 16px;
+      }
+
+      .progress-ring {
+        width: 78px;
+        height: 78px;
+      }
+
+      .progress-ring::before {
+        width: 59px;
+        height: 59px;
+      }
+
+      .progress-text strong {
+        font-size: 1.15rem;
+      }
+
+      .progress-text span {
+        display: none;
+      }
+
+      .toolbar {
+        top: 6px;
+        margin-inline: 0;
+        border-radius: 20px;
+      }
+
+      .toolbar > .small-button {
+        width: 40px;
+        flex: 0 0 40px;
+        padding: 0;
+      }
+
+      .toolbar > .small-button span:last-child {
+        display: none;
+      }
+
+      .daily-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+      }
+
+      .card,
+      .card.wide,
+      .card.full {
+        min-height: 245px;
+        grid-column: 1;
+        border-radius: 25px;
+      }
+
+      .card.tall {
+        min-height: 330px;
+      }
+
+      .card-inner {
+        padding: 22px;
+      }
+
+      .card h2,
+      .card:not(.wide):not(.full) h2 {
+        font-size: clamp(1.55rem, 7vw, 2.1rem);
+      }
+
+      .input-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .choices {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-button {
+        min-height: 78px;
+      }
+
+      .choice-or {
+        justify-self: center;
+      }
+
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#daily-grid">Direkt zu den Karten</a>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="HEUTE. Startseite">
+        <span class="brand-dot" aria-hidden="true"></span>
+        HEUTE.
+      </a>
+
+      <div class="top-actions">
+        <div class="streak" title="Deine tägliche Serie">
+          <span class="streak-flame" aria-hidden="true">●</span>
+          <span id="streak-count">1</span>
+          <span class="streak-label">Tag in Folge</span>
+        </div>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Dunkles Design einschalten" title="Design wechseln">◐</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow" id="current-date">Heute</p>
+          <h1 id="page-title">Dein Daily.</h1>
+          <p class="intro-copy">Ein kurzer Mix aus Wissen, Humor, Fragen und kleinen Dingen, die deinen Tag interessanter machen.</p>
+        </div>
+
+        <div class="progress-ring" id="progress-ring" aria-label="0 von 5 täglichen Aufgaben erledigt">
+          <div class="progress-text">
+            <strong id="progress-count">0/5</strong>
+            <span>erledigt</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="toolbar" aria-label="Karten filtern">
+        <div class="filters" id="filters">
+          <button class="filter-button" type="button" data-filter="all" aria-pressed="true">Alles</button>
+          <button class="filter-button" type="button" data-filter="wissen" aria-pressed="false">Wissen</button>
+          <button class="filter-button" type="button" data-filter="fragen" aria-pressed="false">Fragen</button>
+          <button class="filter-button" type="button" data-filter="spiel" aria-pressed="false">Spiel</button>
+          <button class="filter-button" type="button" data-filter="abend" aria-pressed="false">Abend</button>
+          <button class="filter-button" type="button" data-filter="favorites" aria-pressed="false">Favoriten <span id="favorite-count">0</span></button>
+        </div>
+
+        <button class="small-button" id="remix-button" type="button" title="Andere Inhalte für heute anzeigen">
+          <span aria-hidden="true">↻</span>
+          <span>Neu mischen</span>
+        </button>
+      </nav>
+
+      <section class="daily-grid" id="daily-grid" aria-label="Deine heutigen Karten">
+        <article class="card wide accent tall" data-card="question" data-category="fragen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Frage des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="question" aria-pressed="false" aria-label="Frage des Tages als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="question" aria-label="Frage des Tages teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="question-text">Was würdest du gerne einmal ausprobieren, wenn Scheitern unmöglich wäre?</h2>
+            <label class="eyebrow" for="question-answer">Deine Antwort</label>
+            <textarea class="answer-field" id="question-answer" maxlength="500" placeholder="Schreib es für dich auf …"></textarea>
+            <p class="card-note" id="question-saved" aria-live="polite">Wird automatisch auf diesem Gerät gespeichert.</p>
+            <span class="number-art" aria-hidden="true">01</span>
+          </div>
+        </article>
+
+        <article class="card dark" data-card="joke" data-category="spiel">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Witz des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="joke" aria-pressed="false" aria-label="Witz als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="joke" aria-label="Witz teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="joke-text">Warum können Geister so schlecht lügen? Weil man durch sie hindurchsieht.</h2>
+          </div>
+        </article>
+
+        <article class="card soft" data-card="fact" data-category="wissen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Fun Fact</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="fact" aria-pressed="false" aria-label="Fun Fact als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="fact" aria-label="Fun Fact teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="fact-text">Oktopusse besitzen drei Herzen und blaues Blut.</h2>
+            <p class="card-note">Kleine Information, großer Gesprächseinstieg.</p>
+          </div>
+        </article>
+
+        <article class="card wide tall" data-card="riddle" data-category="spiel">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Rätsel des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="riddle" aria-pressed="false" aria-label="Rätsel als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="riddle" aria-label="Rätsel teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="riddle-text">Ich habe Städte, aber keine Häuser. Wälder, aber keine Bäume. Wasser, aber keine Fische. Was bin ich?</h2>
+            <form id="riddle-form" novalidate>
+              <label class="eyebrow" for="riddle-answer">Deine Lösung · <span id="attempts-left">3 Versuche</span></label>
+              <div class="input-row">
+                <input class="answer-field" id="riddle-answer" type="text" autocomplete="off" maxlength="80" placeholder="Deine Antwort">
+                <button class="primary-button" id="riddle-submit" type="submit">Prüfen</button>
+              </div>
+              <p class="feedback" id="riddle-feedback" aria-live="polite"></p>
+            </form>
+          </div>
+        </article>
+
+        <article class="card" data-card="quote" data-category="wissen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Spruch des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="quote" aria-pressed="false" aria-label="Spruch als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="quote" aria-label="Spruch teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="quote-text">Du musst nicht den ganzen Weg sehen. Nur den nächsten Schritt.</h2>
+          </div>
+        </article>
+
+        <article class="card accent" data-card="challenge" data-category="fragen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Mini-Challenge</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="challenge" aria-pressed="false" aria-label="Mini-Challenge als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="challenge" aria-label="Mini-Challenge teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="challenge-text">Mach heute ein Foto von etwas, an dem du sonst vorbeigehst.</h2>
+            <button class="small-button challenge-button" id="challenge-button" type="button">Als erledigt markieren</button>
+          </div>
+        </article>
+
+        <article class="card full dark" data-card="either" data-category="fragen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Entweder · Oder</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="either" aria-pressed="false" aria-label="Entweder-oder-Frage als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="either" aria-label="Entweder-oder-Frage teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="either-title">Wofür entscheidest du dich?</h2>
+            <div class="choices" id="either-choices">
+              <button class="choice-button" id="choice-a" type="button" data-choice="a" aria-pressed="false" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Jeden Traum in Erinnerung behalten</button>
+              <span class="choice-or">oder</span>
+              <button class="choice-button" id="choice-b" type="button" data-choice="b" aria-pressed="false" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Jede Sprache verstehen</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card soft" data-card="gaming" data-category="spiel">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Gaming-Frage</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="gaming" aria-pressed="false" aria-label="Gaming-Frage als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="gaming" aria-label="Gaming-Frage teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="gaming-text">In welcher Spielwelt würdest du eine Woche Urlaub machen?</h2>
+          </div>
+        </article>
+
+        <article class="card" data-card="whatif" data-category="fragen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Was wäre, wenn …</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="whatif" aria-pressed="false" aria-label="Was-wäre-wenn-Frage als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="whatif" aria-label="Was-wäre-wenn-Frage teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="whatif-text">Was wäre, wenn du für einen Tag die Zeit anhalten könntest?</h2>
+          </div>
+        </article>
+
+        <article class="card accent" data-card="weird" data-category="fragen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Seltsame Frage</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="weird" aria-pressed="false" aria-label="Seltsame Frage als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="weird" aria-label="Seltsame Frage teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="weird-text">Wenn dein Kühlschrank Gefühle hätte, worüber wäre er gerade enttäuscht?</h2>
+          </div>
+        </article>
+
+        <article class="card full" data-card="evening" data-category="abend">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Abendfrage</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="evening" aria-pressed="false" aria-label="Abendfrage als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="evening" aria-label="Abendfrage teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="evening-text">Welcher kleine Moment hat deinen Tag heute besser gemacht?</h2>
+            <label class="eyebrow" for="evening-answer">Kurze Notiz</label>
+            <textarea class="answer-field" id="evening-answer" maxlength="500" placeholder="Halte den Moment fest …"></textarea>
+            <p class="card-note" id="evening-saved" aria-live="polite">Wird automatisch auf diesem Gerät gespeichert.</p>
+          </div>
+        </article>
+
+        <div class="empty-state" id="empty-state">
+          <h2>Noch keine Favoriten</h2>
+          <p>Tippe bei einer Karte auf das Herz, dann findest du sie hier wieder.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>HEUTE.</strong>
+      <span>Dein Daily bleibt auf diesem Gerät gespeichert.</span>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const dayKey = new Intl.DateTimeFormat("sv-SE", {
+        timeZone: "Europe/Berlin",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(new Date());
+
+      const content = {
+        questions: [
+          "Was würdest du gerne einmal ausprobieren, wenn Scheitern unmöglich wäre?",
+          "Welche kleine Entscheidung hat dein Leben stärker verändert, als du damals dachtest?",
+          "Was möchtest du in einem Jahr besser können als heute?",
+          "Welchen Rat würdest du deinem jüngeren Ich heute geben?",
+          "Welche Sache macht einen normalen Tag für dich sofort gut?",
+          "Wenn du morgen mit einer neuen Fähigkeit aufwachen könntest, welche wäre es?",
+          "Welche Idee schiebst du schon zu lange vor dir her?"
+        ],
+        jokes: [
+          "Warum können Geister so schlecht lügen? Weil man durch sie hindurchsieht.",
+          "Was macht ein Keks unter einem Baum? Krümel.",
+          "Warum ging der Pilz auf die Party? Weil er ein Champignon war.",
+          "Wie nennt man einen Bumerang, der nicht zurückkommt? Stock.",
+          "Was liegt am Strand und spricht undeutlich? Eine Nuschel.",
+          "Warum trinken Mäuse keinen Alkohol? Weil sie Angst vor dem Kater haben."
+        ],
+        facts: [
+          "Oktopusse besitzen drei Herzen und blaues Blut.",
+          "Bananen sind botanisch Beeren, Erdbeeren dagegen nicht.",
+          "Ein Tag auf der Venus dauert länger als ein Venusjahr.",
+          "Wombats produzieren würfelförmigen Kot.",
+          "Haie existierten bereits vor den ersten Bäumen.",
+          "Honig kann bei richtiger Lagerung über sehr lange Zeit haltbar bleiben."
+        ],
+        quotes: [
+          "Du musst nicht den ganzen Weg sehen. Nur den nächsten Schritt.",
+          "Ein kleiner Anfang ist immer noch ein Anfang.",
+          "Fortschritt darf leise sein.",
+          "Manchmal ist der Umweg der Teil, an den man sich später erinnert.",
+          "Mut bedeutet nicht, keine Angst zu haben, sondern trotzdem anzufangen.",
+          "Heute reicht es, ein kleines Stück weiterzugehen."
+        ],
+        challenges: [
+          "Mach heute ein Foto von etwas, an dem du sonst vorbeigehst.",
+          "Räume fünf Minuten lang nur eine einzige kleine Ecke auf.",
+          "Schick einer Person eine ehrliche, nette Nachricht.",
+          "Geh zehn Minuten ohne Kopfhörer nach draußen und achte auf die Geräusche.",
+          "Notiere drei Ideen, ohne sie direkt zu bewerten.",
+          "Probier heute etwas auf eine andere Art als sonst."
+        ],
+        either: [
+          ["Jeden Traum in Erinnerung behalten", "Jede Sprache verstehen"],
+          ["Eine Woche ohne Internet", "Eine Woche ohne Musik"],
+          ["In die Vergangenheit reisen", "In die Zukunft reisen"],
+          ["Immer den perfekten Schlaf", "Immer die perfekte Motivation"],
+          ["Ein eigenes Raumschiff", "Eine geheime Burg"],
+          ["Nur noch Koop-Spiele", "Nur noch Einzelspieler-Spiele"]
+        ],
+        gaming: [
+          "In welcher Spielwelt würdest du eine Woche Urlaub machen?",
+          "Welches Spiel würdest du gerne noch einmal völlig ohne Vorwissen erleben?",
+          "Welcher unscheinbare NPC ist dir bis heute im Kopf geblieben?",
+          "Welche Spielmechanik macht dir fast immer Spaß?",
+          "Welches Spiel verdient deiner Meinung nach ein richtig gutes Remake?",
+          "Wenn du ein eigenes Spiel bauen könntest, was wäre die eine besondere Idee?"
+        ],
+        whatif: [
+          "Was wäre, wenn du für einen Tag die Zeit anhalten könntest?",
+          "Was wäre, wenn Tiere ab morgen sprechen könnten?",
+          "Was wäre, wenn jede Tür einmal an einen zufälligen Ort führen würde?",
+          "Was wäre, wenn Träume als Filme gespeichert würden?",
+          "Was wäre, wenn du eine Woche in deinem Lieblingsspiel leben müsstest?",
+          "Was wäre, wenn niemand mehr lügen könnte?"
+        ],
+        weird: [
+          "Wenn dein Kühlschrank Gefühle hätte, worüber wäre er gerade enttäuscht?",
+          "Welches Tier wäre der schlimmste Mitbewohner, wenn es Menschengröße hätte?",
+          "Wenn Socken nachts geheime Treffen hätten, worüber würden sie reden?",
+          "Welche Farbe hätte der Mittwoch, wenn jeder Wochentag eine Farbe wäre?",
+          "Wenn dein Schatten einen Beruf hätte, welcher wäre es?",
+          "Würdest du lieber gegen eine pferdegroße Taube oder hundert taubengroße Pferde antreten?"
+        ],
+        evening: [
+          "Welcher kleine Moment hat deinen Tag heute besser gemacht?",
+          "Was hat heute besser funktioniert, als du erwartet hast?",
+          "Worauf kannst du heute ein bisschen stolz sein?",
+          "Welche Sache möchtest du nicht mit in morgen nehmen?",
+          "Was möchtest du vom heutigen Tag behalten?",
+          "Wem oder was bist du heute dankbar?"
+        ]
+      };
+
+      const storage = {
+        get(key, fallback) {
+          try {
+            const value = localStorage.getItem(key);
+            return value === null ? fallback : JSON.parse(value);
+          } catch {
+            return fallback;
+          }
+        },
+        set(key, value) {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch {
+            // Die Seite bleibt auch ohne verfügbaren Gerätespeicher benutzbar.
+          }
+        }
+      };
+
+      const state = {
+        filter: "all",
+        remix: storage.get(`heute-remix-${dayKey}`, 0),
+        favorites: new Set(storage.get("heute-favorites", [])),
+        completed: storage.get(`heute-completed-${dayKey}`, {}),
+        riddle: storage.get(`heute-riddle-${dayKey}`, { attempts: 0, solved: false, locked: false })
+      };
+
+      const cards = [...document.querySelectorAll(".card")];
+      const toast = document.querySelector("#toast");
+      let toastTimer;
+      let saveTimer;
+
+      function hash(text) {
+        let value = 2166136261;
+        for (let index = 0; index < text.length; index += 1) {
+          value ^= text.charCodeAt(index);
+          value = Math.imul(value, 16777619);
+        }
+        return Math.abs(value);
+      }
+
+      function pick(list, salt = "") {
+        const index = (hash(`${dayKey}-${salt}`) + state.remix) % list.length;
+        return list[index];
+      }
+
+      function showToast(message) {
+        window.clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.classList.add("visible");
+        toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 2400);
+      }
+
+      function applyDailyAccent() {
+        const hue = (hash(dayKey) % 280) + 35;
+        document.documentElement.style.setProperty("--accent", `hsl(${hue} 92% 68%)`);
+        document.documentElement.style.setProperty("--accent-strong", `hsl(${hue} 70% 44%)`);
+      }
+
+      function setDailyContent() {
+        document.querySelector("#question-text").textContent = pick(content.questions, "question");
+        document.querySelector("#joke-text").textContent = pick(content.jokes, "joke");
+        document.querySelector("#fact-text").textContent = pick(content.facts, "fact");
+        document.querySelector("#quote-text").textContent = pick(content.quotes, "quote");
+        document.querySelector("#challenge-text").textContent = pick(content.challenges, "challenge");
+        document.querySelector("#gaming-text").textContent = pick(content.gaming, "gaming");
+        document.querySelector("#whatif-text").textContent = pick(content.whatif, "whatif");
+        document.querySelector("#weird-text").textContent = pick(content.weird, "weird");
+        document.querySelector("#evening-text").textContent = pick(content.evening, "evening");
+
+        const choices = pick(content.either, "either");
+        document.querySelector("#choice-a").textContent = choices[0];
+        document.querySelector("#choice-b").textContent = choices[1];
+      }
+
+      function updateDate() {
+        const now = new Date();
+        const formatted = new Intl.DateTimeFormat("de-DE", {
+          timeZone: "Europe/Berlin",
+          weekday: "long",
+          day: "2-digit",
+          month: "long"
+        }).format(now);
+        document.querySelector("#current-date").textContent = formatted;
+      }
+
+      function updateStreak() {
+        const today = new Date(`${dayKey}T12:00:00`);
+        const previousDay = new Date(today);
+        previousDay.setDate(today.getDate() - 1);
+        const previousKey = new Intl.DateTimeFormat("sv-SE", {
+          timeZone: "Europe/Berlin",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(previousDay);
+
+        const streak = storage.get("heute-streak", { lastVisit: null, count: 0 });
+        if (streak.lastVisit !== dayKey) {
+          streak.count = streak.lastVisit === previousKey ? streak.count + 1 : 1;
+          streak.lastVisit = dayKey;
+          storage.set("heute-streak", streak);
+        }
+
+        document.querySelector("#streak-count").textContent = streak.count;
+        document.querySelector(".streak-label").textContent = streak.count === 1 ? "Tag in Folge" : "Tage in Folge";
+      }
+
+      function applyTheme(theme) {
+        const nextTheme = theme === "dark" ? "dark" : "light";
+        document.documentElement.dataset.theme = nextTheme;
+        document.querySelector("meta[name='theme-color']").content = nextTheme === "dark" ? "#0d0d0d" : "#f3f2ed";
+        const toggle = document.querySelector("#theme-toggle");
+        toggle.textContent = nextTheme === "dark" ? "☀" : "◐";
+        toggle.setAttribute("aria-label", nextTheme === "dark" ? "Helles Design einschalten" : "Dunkles Design einschalten");
+      }
+
+      function initializeTheme() {
+        const saved = storage.get("heute-theme", null);
+        const hour = new Date().getHours();
+        const defaultTheme = hour >= 19 || hour < 7 ? "dark" : "light";
+        applyTheme(saved || defaultTheme);
+      }
+
+      function updateFavorites() {
+        document.querySelectorAll("[data-favorite]").forEach((button) => {
+          const active = state.favorites.has(button.dataset.favorite);
+          button.setAttribute("aria-pressed", String(active));
+          button.textContent = active ? "♥" : "♡";
+        });
+        document.querySelector("#favorite-count").textContent = state.favorites.size;
+        storage.set("heute-favorites", [...state.favorites]);
+        applyFilter();
+      }
+
+      function applyFilter() {
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const isFavorite = state.favorites.has(card.dataset.card);
+          const visible = state.filter === "all" ||
+            card.dataset.category === state.filter ||
+            (state.filter === "favorites" && isFavorite);
+          card.hidden = !visible;
+          if (visible) visibleCount += 1;
+        });
+
+        const empty = document.querySelector("#empty-state");
+        empty.classList.toggle("visible", visibleCount === 0);
+        empty.querySelector("h2").textContent = state.filter === "favorites" ? "Noch keine Favoriten" : "Keine Karten gefunden";
+      }
+
+      function updateProgress() {
+        const total = 5;
+        const values = [
+          Boolean(state.completed.question),
+          Boolean(state.completed.riddle),
+          Boolean(state.completed.challenge),
+          Boolean(state.completed.either),
+          Boolean(state.completed.evening)
+        ];
+        const count = values.filter(Boolean).length;
+        document.querySelector("#progress-count").textContent = `${count}/${total}`;
+        const ring = document.querySelector("#progress-ring");
+        ring.style.setProperty("--progress", `${(count / total) * 100}%`);
+        ring.setAttribute("aria-label", `${count} von ${total} täglichen Aufgaben erledigt`);
+      }
+
+      function saveCompleted() {
+        storage.set(`heute-completed-${dayKey}`, state.completed);
+        updateProgress();
+      }
+
+      function setupAnswers() {
+        const fields = [
+          { element: document.querySelector("#question-answer"), type: "question", status: document.querySelector("#question-saved") },
+          { element: document.querySelector("#evening-answer"), type: "evening", status: document.querySelector("#evening-saved") }
+        ];
+
+        fields.forEach(({ element, type, status }) => {
+          const key = `heute-answer-${type}-${dayKey}`;
+          element.value = storage.get(key, "");
+          if (element.value.trim()) state.completed[type] = true;
+
+          element.addEventListener("input", () => {
+            window.clearTimeout(saveTimer);
+            status.textContent = "Speichert …";
+            saveTimer = window.setTimeout(() => {
+              storage.set(key, element.value);
+              state.completed[type] = Boolean(element.value.trim());
+              saveCompleted();
+              status.textContent = "Gespeichert.";
+            }, 320);
+          });
+        });
+      }
+
+      function normalizeAnswer(value) {
+        return value
+          .toLocaleLowerCase("de-DE")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9äöüß ]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      function renderRiddle() {
+        const attemptsLeft = Math.max(0, 3 - state.riddle.attempts);
+        const input = document.querySelector("#riddle-answer");
+        const submit = document.querySelector("#riddle-submit");
+        const feedback = document.querySelector("#riddle-feedback");
+        document.querySelector("#attempts-left").textContent = `${attemptsLeft} ${attemptsLeft === 1 ? "Versuch" : "Versuche"}`;
+
+        if (state.riddle.solved) {
+          input.disabled = true;
+          submit.disabled = true;
+          feedback.textContent = "Richtig! Die Lösung ist eine Landkarte.";
+          feedback.className = "feedback success";
+        } else if (state.riddle.locked || attemptsLeft === 0) {
+          input.disabled = true;
+          submit.disabled = true;
+          feedback.textContent = "Die Lösung ist: eine Landkarte.";
+          feedback.className = "feedback error";
+        }
+      }
+
+      function setupRiddle() {
+        const accepted = new Set(["eine landkarte", "die landkarte", "landkarte", "eine karte", "karte"]);
+        document.querySelector("#riddle-form").addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (state.riddle.solved || state.riddle.locked) return;
+
+          const input = document.querySelector("#riddle-answer");
+          const answer = normalizeAnswer(input.value);
+          const feedback = document.querySelector("#riddle-feedback");
+
+          if (!answer) {
+            feedback.textContent = "Schreib zuerst eine Antwort hinein.";
+            feedback.className = "feedback error";
+            return;
+          }
+
+          state.riddle.attempts += 1;
+          if (accepted.has(answer)) {
+            state.riddle.solved = true;
+            state.completed.riddle = true;
+          } else if (state.riddle.attempts >= 3) {
+            state.riddle.locked = true;
+          } else {
+            const left = 3 - state.riddle.attempts;
+            feedback.textContent = `Noch nicht richtig. Du hast noch ${left} ${left === 1 ? "Versuch" : "Versuche"}.`;
+            feedback.className = "feedback error";
+            input.select();
+          }
+
+          storage.set(`heute-riddle-${dayKey}`, state.riddle);
+          saveCompleted();
+          renderRiddle();
+        });
+        renderRiddle();
+      }
+
+      function setupChallenge() {
+        const button = document.querySelector("#challenge-button");
+        const render = () => {
+          const done = Boolean(state.completed.challenge);
+          button.classList.toggle("done", done);
+          button.textContent = done ? "Erledigt ✓" : "Als erledigt markieren";
+          button.setAttribute("aria-pressed", String(done));
+        };
+        button.addEventListener("click", () => {
+          state.completed.challenge = !state.completed.challenge;
+          saveCompleted();
+          render();
+          showToast(state.completed.challenge ? "Challenge erledigt." : "Challenge wieder geöffnet.");
+        });
+        render();
+      }
+
+      function setupChoices() {
+        const choiceKey = `heute-choice-${dayKey}`;
+        let selected = storage.get(choiceKey, null);
+        const buttons = [...document.querySelectorAll("[data-choice]")];
+        const render = () => {
+          buttons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.choice === selected)));
+        };
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            selected = button.dataset.choice;
+            storage.set(choiceKey, selected);
+            state.completed.either = true;
+            saveCompleted();
+            render();
+            showToast("Deine Auswahl ist gespeichert.");
+          });
+        });
+        if (selected) state.completed.either = true;
+        render();
+      }
+
+      function cardShareText(cardId) {
+        const card = document.querySelector(`[data-card="${cardId}"]`);
+        const label = card.querySelector(".card-label")?.textContent.trim() || "HEUTE.";
+        const heading = card.querySelector("h2")?.textContent.trim() || "";
+        return `${label}\n${heading}\n\nHEUTE. · Dein Daily`;
+      }
+
+      async function shareCard(cardId) {
+        const text = cardShareText(cardId);
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: "HEUTE.", text });
+          } else if (navigator.clipboard) {
+            await navigator.clipboard.writeText(text);
+            showToast("In die Zwischenablage kopiert.");
+          } else {
+            showToast("Teilen wird von diesem Browser nicht unterstützt.");
+          }
+        } catch (error) {
+          if (error?.name !== "AbortError") showToast("Teilen hat nicht funktioniert.");
+        }
+      }
+
+      function setupButtons() {
+        document.querySelector("#theme-toggle").addEventListener("click", () => {
+          const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+          applyTheme(next);
+          storage.set("heute-theme", next);
+        });
+
+        document.querySelectorAll("[data-favorite]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const cardId = button.dataset.favorite;
+            if (state.favorites.has(cardId)) {
+              state.favorites.delete(cardId);
+              showToast("Aus Favoriten entfernt.");
+            } else {
+              state.favorites.add(cardId);
+              showToast("Als Favorit gespeichert.");
+            }
+            updateFavorites();
+          });
+        });
+
+        document.querySelectorAll("[data-share]").forEach((button) => {
+          button.addEventListener("click", () => shareCard(button.dataset.share));
+        });
+
+        document.querySelectorAll("[data-filter]").forEach((button) => {
+          button.addEventListener("click", () => {
+            state.filter = button.dataset.filter;
+            document.querySelectorAll("[data-filter]").forEach((item) => {
+              item.setAttribute("aria-pressed", String(item === button));
+            });
+            applyFilter();
+          });
+        });
+
+        document.querySelector("#remix-button").addEventListener("click", () => {
+          state.remix += 1;
+          storage.set(`heute-remix-${dayKey}`, state.remix);
+          setDailyContent();
+          showToast("Dein Daily wurde neu gemischt.");
+        });
+      }
+
+      applyDailyAccent();
+      initializeTheme();
+      updateDate();
+      updateStreak();
+      setDailyContent();
+      setupAnswers();
+      setupRiddle();
+      setupChallenge();
+      setupChoices();
+      setupButtons();
+      updateFavorites();
+      saveCompleted();
+    })();
+  </script>
+</body>
+</html>
