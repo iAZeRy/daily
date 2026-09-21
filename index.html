@@ -539,6 +539,55 @@
       padding: 18px;
       font-weight: 850;
       line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .choice-text {
+      display: block;
+      text-align: center;
+    }
+
+    .choice-result,
+    .choice-meter {
+      display: none;
+    }
+
+    .choices.results-visible .choice-result,
+    .choices.results-visible .choice-meter {
+      display: flex;
+    }
+
+    .choice-result {
+      align-items: baseline;
+      justify-content: center;
+      gap: 5px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .choice-percent {
+      font-size: 1.18rem;
+      font-weight: 950;
+    }
+
+    .choice-meter {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.14);
+    }
+
+    .choice-meter-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent-strong);
+      transition: width 450ms cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .card.dark .choices .choice-button {
@@ -550,6 +599,12 @@
 
     .card.dark .choices .choice-button:hover {
       background: #ffffff;
+    }
+
+    .card.dark .choices .choice-button[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 58%, #ffffff);
+      box-shadow: inset 0 0 0 2px var(--accent-strong);
     }
 
     .choice-button[aria-pressed="true"] {
@@ -568,6 +623,14 @@
 
     .dark .choice-or {
       color: #a8a8a2;
+    }
+
+    .choice-results-note {
+      margin-top: 12px !important;
+      color: #a8a8a2 !important;
+      font-size: 0.74rem !important;
+      font-weight: 700;
+      text-align: center;
     }
 
     .challenge-button {
@@ -944,10 +1007,19 @@
             </div>
             <h2 id="either-title">Wofür entscheidest du dich?</h2>
             <div class="choices" id="either-choices">
-              <button class="choice-button" id="choice-a" type="button" data-choice="a" aria-pressed="false" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Jeden Traum in Erinnerung behalten</button>
+              <button class="choice-button" id="choice-a" type="button" data-choice="a" aria-pressed="false" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                <span class="choice-text">Jeden Traum in Erinnerung behalten</span>
+                <span class="choice-result" aria-hidden="true"><strong class="choice-percent">0 %</strong><span class="choice-result-label">haben das gewählt</span></span>
+                <span class="choice-meter" aria-hidden="true"><span class="choice-meter-fill"></span></span>
+              </button>
               <span class="choice-or">oder</span>
-              <button class="choice-button" id="choice-b" type="button" data-choice="b" aria-pressed="false" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Jede Sprache verstehen</button>
+              <button class="choice-button" id="choice-b" type="button" data-choice="b" aria-pressed="false" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                <span class="choice-text">Jede Sprache verstehen</span>
+                <span class="choice-result" aria-hidden="true"><strong class="choice-percent">0 %</strong><span class="choice-result-label">haben das gewählt</span></span>
+                <span class="choice-meter" aria-hidden="true"><span class="choice-meter-fill"></span></span>
+              </button>
             </div>
+            <p class="choice-results-note" id="choice-results-note" hidden>Community-Ergebnis · Beispielwerte im Prototyp</p>
           </div>
         </article>
 
@@ -1186,8 +1258,8 @@
         document.querySelector("#evening-text").textContent = pick(content.evening, "evening");
 
         const choices = pick(content.either, "either");
-        document.querySelector("#choice-a").textContent = choices[0];
-        document.querySelector("#choice-b").textContent = choices[1];
+        document.querySelector("#choice-a .choice-text").textContent = choices[0];
+        document.querySelector("#choice-b .choice-text").textContent = choices[1];
       }
 
       function updateDate() {
@@ -1397,9 +1469,40 @@
       function setupChoices() {
         const choiceKey = `heute-choice-${dayKey}`;
         let selected = storage.get(choiceKey, null);
+        const choices = document.querySelector("#either-choices");
+        const resultsNote = document.querySelector("#choice-results-note");
         const buttons = [...document.querySelectorAll("[data-choice]")];
+
+        const getResults = () => {
+          const labelA = document.querySelector("#choice-a .choice-text").textContent;
+          const labelB = document.querySelector("#choice-b .choice-text").textContent;
+          const resultSeed = hash(`${dayKey}-${labelA}-${labelB}`);
+          const total = 420 + (resultSeed % 1380);
+          const basePercentA = 34 + (resultSeed % 33);
+          const counts = {
+            a: Math.round(total * (basePercentA / 100)),
+            b: total - Math.round(total * (basePercentA / 100))
+          };
+          if (selected) counts[selected] += 1;
+          const voteTotal = counts.a + counts.b;
+          const percentA = Math.round((counts.a / voteTotal) * 100);
+          return { a: percentA, b: 100 - percentA };
+        };
+
         const render = () => {
-          buttons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.choice === selected)));
+          const results = getResults();
+          choices.classList.toggle("results-visible", Boolean(selected));
+          resultsNote.hidden = !selected;
+          buttons.forEach((button) => {
+            const isSelected = button.dataset.choice === selected;
+            const percent = results[button.dataset.choice];
+            const label = button.querySelector(".choice-text").textContent;
+            button.setAttribute("aria-pressed", String(isSelected));
+            button.querySelector(".choice-percent").textContent = `${percent} %`;
+            button.querySelector(".choice-result-label").textContent = isSelected ? "haben auch so gewählt" : "haben das gewählt";
+            button.querySelector(".choice-meter-fill").style.width = selected ? `${percent}%` : "0%";
+            button.setAttribute("aria-label", selected ? `${label}, ${percent} Prozent haben das gewählt` : label);
+          });
         };
         buttons.forEach((button) => {
           button.addEventListener("click", () => {
