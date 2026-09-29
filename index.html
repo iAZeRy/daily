@@ -644,6 +644,91 @@
       color: var(--success);
     }
 
+    .daily-number {
+      display: block;
+      margin: auto 0 8px;
+      font-size: clamp(5.5rem, 11vw, 9rem);
+      font-weight: 950;
+      letter-spacing: -0.09em;
+      line-height: 0.82;
+    }
+
+    .color-day-card {
+      --daily-color: #ff9f43;
+      --daily-color-ink: #171717;
+      --card-bg: var(--daily-color);
+      border-color: transparent;
+      background: var(--daily-color);
+      color: var(--daily-color-ink);
+    }
+
+    .daily-color-name {
+      margin: auto 0 8px !important;
+      font-size: clamp(2rem, 4vw, 3.5rem) !important;
+    }
+
+    .daily-color-code {
+      display: inline-flex;
+      align-self: flex-start;
+      border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--daily-color) 76%, white);
+      padding: 7px 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+    }
+
+    .recipe-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+
+    .recipe-meta span {
+      border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .recipe-details {
+      margin-top: 18px;
+      border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+      padding-top: 14px;
+    }
+
+    .recipe-details summary {
+      cursor: pointer;
+      font-weight: 850;
+    }
+
+    .recipe-content {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 22px;
+      padding-top: 16px;
+    }
+
+    .recipe-content h3 {
+      margin: 0 0 8px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .recipe-content ul,
+    .recipe-content ol {
+      margin: 0;
+      padding-left: 20px;
+      color: color-mix(in srgb, currentColor 78%, transparent);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
     .number-art {
       position: absolute;
       right: -18px;
@@ -833,6 +918,10 @@
         justify-self: center;
       }
 
+      .recipe-content {
+        grid-template-columns: 1fr;
+      }
+
       .footer {
         align-items: flex-start;
         flex-direction: column;
@@ -948,6 +1037,35 @@
           </div>
         </article>
 
+        <article class="card dark" data-card="number" data-category="wissen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Zahl des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="number" aria-pressed="false" aria-label="Zahl des Tages als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="number" aria-label="Zahl des Tages teilen">↗</button>
+              </div>
+            </div>
+            <strong class="daily-number" id="number-value">42</strong>
+            <p class="card-note" id="number-note">Die berühmte Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest.</p>
+          </div>
+        </article>
+
+        <article class="card color-day-card" id="color-day-card" data-card="color" data-category="wissen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Farbe des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="color" aria-pressed="false" aria-label="Farbe des Tages als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="color" aria-label="Farbe des Tages teilen">↗</button>
+              </div>
+            </div>
+            <h2 class="daily-color-name" id="color-name">Mandarine</h2>
+            <span class="daily-color-code" id="color-code">#FF9F43</span>
+            <p class="card-note" id="color-note">Warm, lebendig und voller Energie.</p>
+          </div>
+        </article>
+
         <article class="card wide tall" data-card="riddle" data-category="spiel">
           <div class="card-inner">
             <div class="card-top">
@@ -993,6 +1111,37 @@
             </div>
             <h2 id="challenge-text">Mach heute ein Foto von etwas, an dem du sonst vorbeigehst.</h2>
             <button class="small-button challenge-button" id="challenge-button" type="button">Als erledigt markieren</button>
+          </div>
+        </article>
+
+        <article class="card wide soft" data-card="recipe" data-category="wissen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Rezept des Tages</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="recipe" aria-pressed="false" aria-label="Rezept des Tages als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="recipe" aria-label="Rezept des Tages teilen">↗</button>
+              </div>
+            </div>
+            <h2 id="recipe-title">Cremige Tomatenpasta</h2>
+            <div class="recipe-meta">
+              <span id="recipe-time">20 Minuten</span>
+              <span id="recipe-level">Einfach</span>
+            </div>
+            <p class="card-note" id="recipe-description">Schnelle Pasta mit Tomaten, Frischkäse und Kräutern.</p>
+            <details class="recipe-details">
+              <summary>Zutaten und Zubereitung</summary>
+              <div class="recipe-content">
+                <div>
+                  <h3>Zutaten</h3>
+                  <ul id="recipe-ingredients"></ul>
+                </div>
+                <div>
+                  <h3>Zubereitung</h3>
+                  <ol id="recipe-steps"></ol>
+                </div>
+              </div>
+            </details>
           </div>
         </article>
 
@@ -1103,6 +1252,7 @@
         month: "2-digit",
         day: "2-digit"
       }).format(new Date());
+      const riddleStorageKey = `heute-riddle-v2-${dayKey}`;
 
       const content = {
         questions: [
@@ -1112,7 +1262,18 @@
           "Welchen Rat würdest du deinem jüngeren Ich heute geben?",
           "Welche Sache macht einen normalen Tag für dich sofort gut?",
           "Wenn du morgen mit einer neuen Fähigkeit aufwachen könntest, welche wäre es?",
-          "Welche Idee schiebst du schon zu lange vor dir her?"
+          "Welche Idee schiebst du schon zu lange vor dir her?",
+          "Welche Erfindung würdest du sofort ausprobieren, wenn sie morgen existieren würde?",
+          "Was würdest du mit einem komplett freien Monat anfangen?",
+          "Welcher Ort fühlt sich für dich sofort wie Zuhause an?",
+          "Welche Eigenschaft bewunderst du an anderen Menschen besonders?",
+          "Was soll dein zukünftiges Ich über dein heutiges Ich wissen?",
+          "Welche kleine Gewohnheit würde deinen Alltag spürbar verbessern?",
+          "Wenn dein Leben gerade ein Kapitel wäre, welchen Titel hätte es?",
+          "Welche Sache würdest du gerne einmal von Grund auf selbst bauen?",
+          "Was würdest du gestalten, wenn Zeit und Material keine Rolle spielten?",
+          "Welches Gespräch ist dir länger im Kopf geblieben, als du erwartet hattest?",
+          "Welche Erinnerung bringt dich fast immer zum Lächeln?"
         ],
         jokes: [
           "Warum können Geister so schlecht lügen? Weil man durch sie hindurchsieht.",
@@ -1120,7 +1281,19 @@
           "Warum ging der Pilz auf die Party? Weil er ein Champignon war.",
           "Wie nennt man einen Bumerang, der nicht zurückkommt? Stock.",
           "Was liegt am Strand und spricht undeutlich? Eine Nuschel.",
-          "Warum trinken Mäuse keinen Alkohol? Weil sie Angst vor dem Kater haben."
+          "Warum trinken Mäuse keinen Alkohol? Weil sie Angst vor dem Kater haben.",
+          "Was macht ein Pirat am Computer? Er drückt die Enter-Taste.",
+          "Warum können Seeräuber keinen Kreis berechnen? Weil sie Pi raten.",
+          "Was ist orange und läuft durch den Wald? Eine Wanderine.",
+          "Wie heißt ein Spanier ohne Auto? Carlos.",
+          "Was sagt ein großer Stift zu einem kleinen Stift? Wachs-mal-Stift.",
+          "Warum sind Kalender so beliebt? Weil sie viele Dates haben.",
+          "Was macht eine Wolke, wenn es juckt? Sie fliegt zum Wolkenkratzer.",
+          "Warum war der Besen zu spät? Er hatte sich verkehrt.",
+          "Was bestellt ein Roboter im Café? Einen Bit-teren Kaffee.",
+          "Wie nennt man einen schlafenden Stier? Bulldozer.",
+          "Warum ging der Computer zum Arzt? Er hatte einen Virus.",
+          "Was ist grün und schaut durchs Schlüsselloch? Ein Spionat."
         ],
         facts: [
           "Oktopusse besitzen drei Herzen und blaues Blut.",
@@ -1128,7 +1301,71 @@
           "Ein Tag auf der Venus dauert länger als ein Venusjahr.",
           "Wombats produzieren würfelförmigen Kot.",
           "Haie existierten bereits vor den ersten Bäumen.",
-          "Honig kann bei richtiger Lagerung über sehr lange Zeit haltbar bleiben."
+          "Honig kann bei richtiger Lagerung über sehr lange Zeit haltbar bleiben.",
+          "Krähen können sich menschliche Gesichter über Jahre merken.",
+          "Der Mond entfernt sich jedes Jahr ungefähr 3,8 Zentimeter von der Erde.",
+          "Flamingos kommen mit grauem Gefieder zur Welt.",
+          "Schmetterlinge schmecken mit ihren Füßen.",
+          "Schottlands Nationaltier ist das Einhorn.",
+          "Ein Blitz kann heißer als die Oberfläche der Sonne werden.",
+          "Der erste Webcam-Livestream zeigte den Füllstand einer Kaffeekanne.",
+          "Saturn hat im Durchschnitt eine geringere Dichte als Wasser.",
+          "Seeotter halten sich beim Schlafen manchmal an den Pfoten fest.",
+          "Der Eiffelturm kann sich bei Wärme um mehrere Zentimeter ausdehnen.",
+          "Koalas besitzen Fingerabdrücke, die menschlichen sehr ähnlich sehen.",
+          "Ein gewöhnliches Kartenspiel lässt sich auf mehr Arten mischen, als es Atome auf der Erde gibt."
+        ],
+        riddles: [
+          { question: "Ich habe Städte, aber keine Häuser. Wälder, aber keine Bäume. Wasser, aber keine Fische. Was bin ich?", solution: "eine Landkarte", answers: ["landkarte", "karte", "eine landkarte", "eine karte"] },
+          { question: "Ich antworte dir, obwohl ich keinen Mund habe. Was bin ich?", solution: "ein Echo", answers: ["echo", "ein echo", "das echo"] },
+          { question: "Ich folge dir am Tag, verschwinde aber in völliger Dunkelheit. Was bin ich?", solution: "dein Schatten", answers: ["schatten", "mein schatten", "dein schatten", "der schatten"] },
+          { question: "Ich habe Hände, aber keine Finger, und ein Gesicht, aber keine Augen. Was bin ich?", solution: "eine Uhr", answers: ["uhr", "eine uhr", "die uhr"] },
+          { question: "Je mehr du von mir wegnimmst, desto größer werde ich. Was bin ich?", solution: "ein Loch", answers: ["loch", "ein loch", "das loch"] },
+          { question: "Ich habe viele Tasten, öffne aber keine einzige Tür. Was bin ich?", solution: "ein Klavier", answers: ["klavier", "ein klavier", "piano", "ein piano"] },
+          { question: "Ich werde nass, während ich etwas anderes trocken mache. Was bin ich?", solution: "ein Handtuch", answers: ["handtuch", "ein handtuch", "das handtuch"] },
+          { question: "Ich habe viele Zähne, kann aber nicht beißen. Was bin ich?", solution: "ein Kamm", answers: ["kamm", "ein kamm", "der kamm"] },
+          { question: "Ich habe einen Rücken, aber keine Knochen, und viele Seiten. Was bin ich?", solution: "ein Buch", answers: ["buch", "ein buch", "das buch"] },
+          { question: "Ich brauche Nahrung zum Leben, doch Wasser lässt mich sterben. Was bin ich?", solution: "Feuer", answers: ["feuer", "das feuer", "ein feuer"] },
+          { question: "Was gehört dir, wird aber häufiger von anderen benutzt?", solution: "dein Name", answers: ["name", "mein name", "dein name", "der name"] },
+          { question: "Was kannst du brechen, ohne es jemals anzufassen?", solution: "ein Versprechen", answers: ["versprechen", "ein versprechen", "das versprechen"] },
+          { question: "Was liegt immer vor dir, kann aber nie gesehen werden?", solution: "die Zukunft", answers: ["zukunft", "die zukunft"] },
+          { question: "Welches Wort wird kürzer, wenn man zwei Buchstaben hinzufügt?", solution: "kurz", answers: ["kurz", "das wort kurz"] },
+          { question: "Wenn du meinen Namen aussprichst, bin ich nicht mehr da. Was bin ich?", solution: "die Stille", answers: ["stille", "die stille", "schweigen", "das schweigen"] }
+        ],
+        numbers: [
+          { value: "3", note: "Drei Punkte bilden die kleinste mögliche geometrische Fläche: ein Dreieck." },
+          { value: "7", note: "Eine Woche hat sieben Tage und ein klassischer Regenbogen sieben Farben." },
+          { value: "8", note: "Seitlich gedreht erinnert die Acht an das Zeichen für Unendlichkeit." },
+          { value: "12", note: "Zwölf Monate bilden ein Jahr und zweimal zwölf Stunden einen Tag." },
+          { value: "23", note: "Menschen besitzen normalerweise 23 Chromosomenpaare." },
+          { value: "24", note: "Ein Tag besteht aus 24 Stunden." },
+          { value: "32", note: "Ein vollständiges erwachsenes Gebiss hat normalerweise 32 Zähne." },
+          { value: "42", note: "Die berühmte Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest." },
+          { value: "52", note: "Ein klassisches Kartenspiel besitzt 52 Karten ohne Joker." },
+          { value: "60", note: "Eine Minute hat 60 Sekunden und eine Stunde 60 Minuten." },
+          { value: "64", note: "Ein Schachbrett besteht aus 64 Feldern." },
+          { value: "100", note: "Bei normalem Luftdruck siedet Wasser bei 100 Grad Celsius." },
+          { value: "144", note: "Zwölf mal zwölf heißt auch ein Gros." },
+          { value: "365", note: "Ein gewöhnliches Kalenderjahr hat 365 Tage." },
+          { value: "1000", note: "Tausend Kilogramm ergeben eine metrische Tonne." }
+        ],
+        colors: [
+          { name: "Mandarine", hex: "#FF9F43", ink: "#171717", note: "Warm, lebendig und voller Energie." },
+          { name: "Kobaltblau", hex: "#2855D9", ink: "#FFFFFF", note: "Klar, intensiv und konzentriert." },
+          { name: "Salbeigrün", hex: "#9BB59A", ink: "#171717", note: "Ruhig, natürlich und ausgeglichen." },
+          { name: "Himbeerrot", hex: "#D92D63", ink: "#FFFFFF", note: "Mutig, kräftig und ein wenig verspielt." },
+          { name: "Sonnengelb", hex: "#FFD84D", ink: "#171717", note: "Optimistisch, hell und freundlich." },
+          { name: "Lavendel", hex: "#A99AF4", ink: "#171717", note: "Sanft, kreativ und verträumt." },
+          { name: "Petrol", hex: "#0F6F70", ink: "#FFFFFF", note: "Tief, modern und gelassen." },
+          { name: "Koralle", hex: "#FF735E", ink: "#171717", note: "Lebendig, offen und sommerlich." },
+          { name: "Nachtblau", hex: "#18233D", ink: "#FFFFFF", note: "Still, elegant und geheimnisvoll." },
+          { name: "Pistazie", hex: "#B8D990", ink: "#171717", note: "Frisch, leicht und freundlich." },
+          { name: "Kupfer", hex: "#B66A3C", ink: "#FFFFFF", note: "Erdig, warm und charakterstark." },
+          { name: "Eisblau", hex: "#A8DADC", ink: "#171717", note: "Kühl, sauber und entspannt." },
+          { name: "Pflaume", hex: "#6D365F", ink: "#FFFFFF", note: "Satt, kreativ und elegant." },
+          { name: "Moosgrün", hex: "#47624B", ink: "#FFFFFF", note: "Natürlich, ruhig und beständig." },
+          { name: "Pfirsich", hex: "#FFBE98", ink: "#171717", note: "Weich, herzlich und unbeschwert." },
+          { name: "Graphit", hex: "#3B3D42", ink: "#FFFFFF", note: "Reduziert, modern und souverän." }
         ],
         quotes: [
           "Du musst nicht den ganzen Weg sehen. Nur den nächsten Schritt.",
@@ -1136,7 +1373,19 @@
           "Fortschritt darf leise sein.",
           "Manchmal ist der Umweg der Teil, an den man sich später erinnert.",
           "Mut bedeutet nicht, keine Angst zu haben, sondern trotzdem anzufangen.",
-          "Heute reicht es, ein kleines Stück weiterzugehen."
+          "Heute reicht es, ein kleines Stück weiterzugehen.",
+          "Nicht jeder gute Tag muss außergewöhnlich sein.",
+          "Was langsam wächst, kann trotzdem stark werden.",
+          "Eine Pause ist kein Rückschritt.",
+          "Du darfst deine Meinung ändern, wenn du Neues gelernt hast.",
+          "Kleine Schritte zählen auch dann, wenn sie niemand sieht.",
+          "Manche Antworten entstehen erst unterwegs.",
+          "Es ist erlaubt, stolz auf einen unfertigen Weg zu sein.",
+          "Neugier bringt dich oft weiter als Perfektion.",
+          "Ein ruhiger Tag kann genau das sein, was du brauchst.",
+          "Du musst nicht schneller sein, nur ehrlich mit deiner Richtung.",
+          "Ideen werden leichter, sobald sie den ersten Platz auf Papier finden.",
+          "Auch ein neuer Versuch ist bereits Bewegung."
         ],
         challenges: [
           "Mach heute ein Foto von etwas, an dem du sonst vorbeigehst.",
@@ -1144,7 +1393,19 @@
           "Schick einer Person eine ehrliche, nette Nachricht.",
           "Geh zehn Minuten ohne Kopfhörer nach draußen und achte auf die Geräusche.",
           "Notiere drei Ideen, ohne sie direkt zu bewerten.",
-          "Probier heute etwas auf eine andere Art als sonst."
+          "Probier heute etwas auf eine andere Art als sonst.",
+          "Trink ein großes Glas Wasser und leg das Handy für zehn Minuten weg.",
+          "Mach etwas fertig, das weniger als fünf Minuten dauert.",
+          "Schreib einen Satz darüber, was heute gut laufen soll.",
+          "Hör einen Song, den du seit Jahren nicht mehr gehört hast.",
+          "Mach zwanzig bewusste, langsame Schritte.",
+          "Sortiere zehn Dinge aus einer Schublade oder einem Ordner.",
+          "Lerne heute ein neues Wort und benutze es einmal.",
+          "Schau für zwei Minuten aus dem Fenster, ohne nebenbei etwas zu tun.",
+          "Mach jemandem ein konkretes Kompliment.",
+          "Zeichne in zwei Minuten etwas, ohne den Stift abzusetzen.",
+          "Tausche heute eine automatische Gewohnheit gegen eine bewusste Entscheidung.",
+          "Notiere eine Sache, die du diese Woche ausprobieren möchtest."
         ],
         either: [
           ["Jeden Traum in Erinnerung behalten", "Jede Sprache verstehen"],
@@ -1152,7 +1413,19 @@
           ["In die Vergangenheit reisen", "In die Zukunft reisen"],
           ["Immer den perfekten Schlaf", "Immer die perfekte Motivation"],
           ["Ein eigenes Raumschiff", "Eine geheime Burg"],
-          ["Nur noch Koop-Spiele", "Nur noch Einzelspieler-Spiele"]
+          ["Nur noch Koop-Spiele", "Nur noch Einzelspieler-Spiele"],
+          ["Gedanken lesen können", "Mit Tieren sprechen können"],
+          ["Am Meer wohnen", "In den Bergen wohnen"],
+          ["Nie wieder warten müssen", "Nie wieder zu spät kommen"],
+          ["Ein Jahr lang Sommer", "Ein Jahr lang Winter"],
+          ["Teleportieren können", "Fliegen können"],
+          ["Immer das perfekte Essen", "Immer die perfekte Playlist"],
+          ["Eine riesige Bibliothek", "Ein privates Kino"],
+          ["Jeden Tag etwas Neues lernen", "Jeden Tag etwas Neues erschaffen"],
+          ["Ein Spiel ohne Karte", "Ein Spiel ohne Schnellreise"],
+          ["Früh aufstehen", "Lange wach bleiben"],
+          ["Nur noch süß", "Nur noch herzhaft"],
+          ["Eine Woche ohne Uhr", "Eine Woche ohne Spiegel"]
         ],
         gaming: [
           "In welcher Spielwelt würdest du eine Woche Urlaub machen?",
@@ -1160,7 +1433,19 @@
           "Welcher unscheinbare NPC ist dir bis heute im Kopf geblieben?",
           "Welche Spielmechanik macht dir fast immer Spaß?",
           "Welches Spiel verdient deiner Meinung nach ein richtig gutes Remake?",
-          "Wenn du ein eigenes Spiel bauen könntest, was wäre die eine besondere Idee?"
+          "Wenn du ein eigenes Spiel bauen könntest, was wäre die eine besondere Idee?",
+          "Welches Spiel hat den besten Soundtrack für dich?",
+          "Welche Bossbegegnung wirst du nie vergessen?",
+          "Welche Spielwelt würdest du niemals freiwillig betreten?",
+          "Welches Spiel war besser, als du zuerst erwartet hattest?",
+          "Welche Fähigkeit aus einem Spiel hättest du gerne im echten Leben?",
+          "Welches Spiel eignet sich perfekt für einen verregneten Tag?",
+          "Bei welchem Spiel hast du am meisten gebaut oder gestaltet?",
+          "Welche kleine Spielmechanik wird viel zu selten benutzt?",
+          "Welches ältere Spiel funktioniert heute noch überraschend gut?",
+          "Welche Figur würdest du gerne als Begleiter in einem anderen Spiel haben?",
+          "Was macht für dich eine wirklich gute Open World aus?",
+          "Welches Spiel würdest du gerne mit Freunden komplett neu beginnen?"
         ],
         whatif: [
           "Was wäre, wenn du für einen Tag die Zeit anhalten könntest?",
@@ -1168,7 +1453,19 @@
           "Was wäre, wenn jede Tür einmal an einen zufälligen Ort führen würde?",
           "Was wäre, wenn Träume als Filme gespeichert würden?",
           "Was wäre, wenn du eine Woche in deinem Lieblingsspiel leben müsstest?",
-          "Was wäre, wenn niemand mehr lügen könnte?"
+          "Was wäre, wenn niemand mehr lügen könnte?",
+          "Was wäre, wenn Menschen keine Namen hätten?",
+          "Was wäre, wenn du jeden Morgen an einem anderen Ort aufwachen würdest?",
+          "Was wäre, wenn Erinnerungen getauscht werden könnten?",
+          "Was wäre, wenn das Internet für einen Monat verschwinden würde?",
+          "Was wäre, wenn Pflanzen sichtbar auf Musik reagieren würden?",
+          "Was wäre, wenn du eine einzige Regel der Welt ändern könntest?",
+          "Was wäre, wenn jeder Mensch eine persönliche Hintergrundmusik hätte?",
+          "Was wäre, wenn dein Spiegelbild eigene Entscheidungen treffen könnte?",
+          "Was wäre, wenn man Gefühle als Farben sehen könnte?",
+          "Was wäre, wenn jeder Traum am nächsten Tag Wirklichkeit würde?",
+          "Was wäre, wenn Häuser ihre Erinnerungen erzählen könnten?",
+          "Was wäre, wenn du für 24 Stunden unsichtbar wärst?"
         ],
         weird: [
           "Wenn dein Kühlschrank Gefühle hätte, worüber wäre er gerade enttäuscht?",
@@ -1176,7 +1473,19 @@
           "Wenn Socken nachts geheime Treffen hätten, worüber würden sie reden?",
           "Welche Farbe hätte der Mittwoch, wenn jeder Wochentag eine Farbe wäre?",
           "Wenn dein Schatten einen Beruf hätte, welcher wäre es?",
-          "Würdest du lieber gegen eine pferdegroße Taube oder hundert taubengroße Pferde antreten?"
+          "Würdest du lieber gegen eine pferdegroße Taube oder hundert taubengroße Pferde antreten?",
+          "Wenn Brot sprechen könnte, welche Sorte wäre am unhöflichsten?",
+          "Welcher Gegenstand in deinem Zimmer plant wahrscheinlich heimlich etwas?",
+          "Wenn Gedanken einen Geruch hätten, wonach würde deiner gerade riechen?",
+          "Welche Frucht wäre als Chef besonders anstrengend?",
+          "Wenn dein Name ein Geräusch wäre, wie würde er klingen?",
+          "Welches Tier würde die schlechtesten Nachrichten moderieren?",
+          "Wenn Aufzüge Gefühle hätten, wovor hätten sie Angst?",
+          "Welche geheime Gesellschaft würden Zimmerpflanzen gründen?",
+          "Wenn du einen neuen Wochentag erfinden könntest, wie würde er heißen?",
+          "Welcher Alltagsgegenstand wäre als Haustier überraschend praktisch?",
+          "Wenn Wolken unterschiedliche Geschmacksrichtungen hätten, welche wäre am beliebtesten?",
+          "Welche völlig unnötige Superkraft wäre trotzdem lustig?"
         ],
         evening: [
           "Welcher kleine Moment hat deinen Tag heute besser gemacht?",
@@ -1184,7 +1493,33 @@
           "Worauf kannst du heute ein bisschen stolz sein?",
           "Welche Sache möchtest du nicht mit in morgen nehmen?",
           "Was möchtest du vom heutigen Tag behalten?",
-          "Wem oder was bist du heute dankbar?"
+          "Wem oder was bist du heute dankbar?",
+          "Was hast du heute über dich selbst gelernt?",
+          "Welcher Moment war heute ruhiger, als du ihn erwartet hattest?",
+          "Was würdest du am heutigen Tag gerne noch einmal erleben?",
+          "Welche Aufgabe darf bis morgen warten?",
+          "Was hat dir heute neue Energie gegeben?",
+          "Wann hast du heute kurz die Zeit vergessen?",
+          "Welche Entscheidung war heute genau richtig?",
+          "Was möchtest du morgen anders beginnen?",
+          "Welche Person hat deinen Tag heute beeinflusst?",
+          "Was war heute einfacher als gestern?",
+          "Welche Kleinigkeit hast du heute für dich getan?",
+          "Mit welchem Gedanken möchtest du heute einschlafen?"
+        ],
+        recipes: [
+          { title: "Cremige Tomatenpasta", time: "20 Minuten", level: "Einfach", description: "Schnelle Pasta mit Tomaten, Frischkäse und Kräutern.", ingredients: ["200 g Pasta", "1 Dose gehackte Tomaten", "100 g Frischkäse", "1 Knoblauchzehe", "Salz, Pfeffer und Kräuter"], steps: ["Pasta nach Packungsangabe kochen.", "Knoblauch kurz anbraten und Tomaten zugeben.", "Frischkäse einrühren, würzen und mit der Pasta vermengen."] },
+          { title: "Knusprige Ofenkartoffeln mit Kräuterquark", time: "40 Minuten", level: "Einfach", description: "Außen knusprig, innen weich und mit frischem Dip.", ingredients: ["500 g kleine Kartoffeln", "2 EL Öl", "250 g Quark", "Kräuter nach Wahl", "Salz und Pfeffer"], steps: ["Kartoffeln halbieren und mit Öl sowie Salz mischen.", "Bei 210 Grad etwa 30 Minuten backen.", "Quark mit Kräutern und Gewürzen verrühren."] },
+          { title: "Wrap-Pizza", time: "15 Minuten", level: "Sehr einfach", description: "Eine schnelle, dünne Pizza für den kleinen Hunger.", ingredients: ["2 Weizentortillas", "4 EL Tomatensauce", "100 g geriebener Käse", "Belag nach Wahl", "Oregano"], steps: ["Wraps mit Tomatensauce bestreichen.", "Belegen und mit Käse bestreuen.", "Bei 200 Grad 8 bis 10 Minuten knusprig backen."] },
+          { title: "Gebratener Reis mit Ei", time: "20 Minuten", level: "Einfach", description: "Perfekt für übrig gebliebenen Reis vom Vortag.", ingredients: ["300 g gekochter Reis", "2 Eier", "1 Karotte", "2 Frühlingszwiebeln", "2 EL Sojasauce"], steps: ["Gemüse klein schneiden und anbraten.", "Reis zugeben und kräftig erhitzen.", "Eier einrühren, stocken lassen und mit Sojasauce abschmecken."] },
+          { title: "Apfel-Zimt-Porridge", time: "10 Minuten", level: "Sehr einfach", description: "Warmes Frühstück mit Apfel, Haferflocken und Zimt.", ingredients: ["80 g Haferflocken", "250 ml Milch oder Pflanzendrink", "1 Apfel", "1 TL Zimt", "1 TL Honig"], steps: ["Apfel klein schneiden.", "Haferflocken, Milch und die Hälfte des Apfels aufkochen.", "Mit Zimt, Honig und restlichem Apfel servieren."] },
+          { title: "Cremige Blumenkohlsuppe", time: "30 Minuten", level: "Einfach", description: "Mild, cremig und ideal für einen ruhigen Abend.", ingredients: ["1 kleiner Blumenkohl", "1 Kartoffel", "750 ml Gemüsebrühe", "100 ml Sahne", "Muskat, Salz und Pfeffer"], steps: ["Blumenkohl und Kartoffel klein schneiden.", "In Brühe etwa 20 Minuten weich kochen.", "Pürieren, Sahne einrühren und würzen."] },
+          { title: "Spinat-Feta-Pasta", time: "25 Minuten", level: "Einfach", description: "Würzige Pasta mit cremigem Spinat und Feta.", ingredients: ["200 g Pasta", "200 g Blattspinat", "100 g Feta", "100 ml Sahne", "1 Knoblauchzehe"], steps: ["Pasta kochen.", "Knoblauch und Spinat in einer Pfanne erhitzen.", "Sahne und Feta zugeben, würzen und Pasta untermischen."] },
+          { title: "Schnelles Kichererbsen-Curry", time: "25 Minuten", level: "Einfach", description: "Wärmendes Curry aus wenigen Vorratszutaten.", ingredients: ["1 Dose Kichererbsen", "1 Dose Kokosmilch", "1 Paprika", "1 EL Currypulver", "150 g Reis"], steps: ["Reis kochen.", "Paprika anbraten und Currypulver kurz mitrösten.", "Kichererbsen und Kokosmilch zugeben und 12 Minuten köcheln lassen."] },
+          { title: "Knusprige Gnocchi-Pfanne", time: "20 Minuten", level: "Einfach", description: "Goldbraune Gnocchi mit Tomaten und Mozzarella.", ingredients: ["500 g Gnocchi", "200 g Cherrytomaten", "1 Kugel Mozzarella", "1 EL Öl", "Basilikum"], steps: ["Gnocchi in Öl rundherum knusprig braten.", "Tomaten halbieren und kurz mitbraten.", "Mozzarella und Basilikum unterheben und würzen."] },
+          { title: "Beeren-Joghurt-Glas", time: "5 Minuten", level: "Sehr einfach", description: "Fruchtig, frisch und ohne Kochen fertig.", ingredients: ["250 g Naturjoghurt", "150 g Beeren", "3 EL Haferflocken", "1 TL Honig", "1 EL Nüsse oder Kerne"], steps: ["Joghurt und Honig verrühren.", "Mit Beeren und Haferflocken schichten.", "Mit Nüssen oder Kernen bestreuen."] },
+          { title: "Käse-Omelett", time: "12 Minuten", level: "Sehr einfach", description: "Ein schnelles, herzhaftes Essen aus der Pfanne.", ingredients: ["3 Eier", "50 g geriebener Käse", "1 EL Milch", "Salz und Pfeffer", "Schnittlauch"], steps: ["Eier mit Milch und Gewürzen verquirlen.", "In eine warme Pfanne geben und langsam stocken lassen.", "Käse darauf verteilen, zusammenklappen und mit Schnittlauch servieren."] },
+          { title: "Blechgemüse mit Feta", time: "35 Minuten", level: "Einfach", description: "Buntes Ofengemüse, das fast von allein fertig wird.", ingredients: ["1 Zucchini", "1 Paprika", "2 Karotten", "150 g Feta", "2 EL Öl und Kräuter"], steps: ["Gemüse würfeln und mit Öl sowie Kräutern mischen.", "Bei 210 Grad etwa 25 Minuten backen.", "Feta darüberbröseln und weitere 5 Minuten backen."] }
         ]
       };
 
@@ -1211,13 +1546,14 @@
         remix: storage.get(`heute-remix-${dayKey}`, 0),
         favorites: new Set(storage.get("heute-favorites", [])),
         completed: storage.get(`heute-completed-${dayKey}`, {}),
-        riddle: storage.get(`heute-riddle-${dayKey}`, { attempts: 0, solved: false, locked: false })
+        riddle: storage.get(riddleStorageKey, { attempts: 0, solved: false, locked: false })
       };
 
       const cards = [...document.querySelectorAll(".card")];
       const toast = document.querySelector("#toast");
       let toastTimer;
       let saveTimer;
+      let activeRiddle;
 
       function hash(text) {
         let value = 2166136261;
@@ -1231,6 +1567,10 @@
       function pick(list, salt = "") {
         const index = (hash(`${dayKey}-${salt}`) + state.remix) % list.length;
         return list[index];
+      }
+
+      function pickDaily(list, salt = "") {
+        return list[hash(`${dayKey}-${salt}`) % list.length];
       }
 
       function showToast(message) {
@@ -1256,6 +1596,38 @@
         document.querySelector("#whatif-text").textContent = pick(content.whatif, "whatif");
         document.querySelector("#weird-text").textContent = pick(content.weird, "weird");
         document.querySelector("#evening-text").textContent = pick(content.evening, "evening");
+
+        activeRiddle = pickDaily(content.riddles, "riddle");
+        document.querySelector("#riddle-text").textContent = activeRiddle.question;
+
+        const number = pickDaily(content.numbers, "number");
+        document.querySelector("#number-value").textContent = number.value;
+        document.querySelector("#number-note").textContent = number.note;
+
+        const color = pickDaily(content.colors, "color");
+        const colorCard = document.querySelector("#color-day-card");
+        colorCard.style.setProperty("--daily-color", color.hex);
+        colorCard.style.setProperty("--daily-color-ink", color.ink);
+        colorCard.style.setProperty("--card-bg", color.hex);
+        document.querySelector("#color-name").textContent = color.name;
+        document.querySelector("#color-code").textContent = color.hex;
+        document.querySelector("#color-note").textContent = color.note;
+
+        const recipe = pickDaily(content.recipes, "recipe");
+        document.querySelector("#recipe-title").textContent = recipe.title;
+        document.querySelector("#recipe-time").textContent = recipe.time;
+        document.querySelector("#recipe-level").textContent = recipe.level;
+        document.querySelector("#recipe-description").textContent = recipe.description;
+        document.querySelector("#recipe-ingredients").replaceChildren(...recipe.ingredients.map((ingredient) => {
+          const item = document.createElement("li");
+          item.textContent = ingredient;
+          return item;
+        }));
+        document.querySelector("#recipe-steps").replaceChildren(...recipe.steps.map((step) => {
+          const item = document.createElement("li");
+          item.textContent = step;
+          return item;
+        }));
 
         const choices = pick(content.either, "either");
         document.querySelector("#choice-a .choice-text").textContent = choices[0];
@@ -1403,18 +1775,17 @@
         if (state.riddle.solved) {
           input.disabled = true;
           submit.disabled = true;
-          feedback.textContent = "Richtig! Die Lösung ist eine Landkarte.";
+          feedback.textContent = `Richtig! Die Lösung ist: ${activeRiddle.solution}.`;
           feedback.className = "feedback success";
         } else if (state.riddle.locked || attemptsLeft === 0) {
           input.disabled = true;
           submit.disabled = true;
-          feedback.textContent = "Die Lösung ist: eine Landkarte.";
+          feedback.textContent = `Die Lösung ist: ${activeRiddle.solution}.`;
           feedback.className = "feedback error";
         }
       }
 
       function setupRiddle() {
-        const accepted = new Set(["eine landkarte", "die landkarte", "landkarte", "eine karte", "karte"]);
         document.querySelector("#riddle-form").addEventListener("submit", (event) => {
           event.preventDefault();
           if (state.riddle.solved || state.riddle.locked) return;
@@ -1430,6 +1801,7 @@
           }
 
           state.riddle.attempts += 1;
+          const accepted = new Set(activeRiddle.answers.map(normalizeAnswer));
           if (accepted.has(answer)) {
             state.riddle.solved = true;
             state.completed.riddle = true;
@@ -1442,7 +1814,7 @@
             input.select();
           }
 
-          storage.set(`heute-riddle-${dayKey}`, state.riddle);
+          storage.set(riddleStorageKey, state.riddle);
           saveCompleted();
           renderRiddle();
         });
@@ -1521,7 +1893,7 @@
       function cardShareText(cardId) {
         const card = document.querySelector(`[data-card="${cardId}"]`);
         const label = card.querySelector(".card-label")?.textContent.trim() || "HEUTE.";
-        const heading = card.querySelector("h2")?.textContent.trim() || "";
+        const heading = card.querySelector("h2, .daily-number")?.textContent.trim() || "";
         return `${label}\n${heading}\n\nHEUTE. · Dein Daily`;
       }
 
