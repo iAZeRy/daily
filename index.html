@@ -644,6 +644,145 @@
       color: var(--success);
     }
 
+    .today-overview-card {
+      --card-bg: color-mix(in srgb, var(--accent) 13%, var(--surface));
+      min-height: 0;
+    }
+
+    .today-overview-card .card-inner {
+      gap: 20px;
+    }
+
+    .today-overview-card .card-top {
+      margin-bottom: 0;
+    }
+
+    .today-overview-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .today-overview-head h2 {
+      max-width: none;
+      margin: 0;
+    }
+
+    .today-overview-date {
+      margin-bottom: 5px !important;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .today-day-badge {
+      display: grid;
+      min-width: 126px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--surface) 72%, transparent);
+      padding: 14px 18px;
+      text-align: center;
+    }
+
+    .today-day-badge strong {
+      font-size: 2.35rem;
+      font-weight: 950;
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .today-day-badge span {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.69rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .today-stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .today-stat {
+      display: grid;
+      min-height: 108px;
+      align-content: space-between;
+      border: 1px solid color-mix(in srgb, currentColor 11%, transparent);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--surface) 76%, transparent);
+      padding: 14px;
+    }
+
+    .today-stat-icon {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .today-stat strong {
+      display: block;
+      margin-top: 10px;
+      font-size: clamp(1rem, 2vw, 1.28rem);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    .today-stat span:last-child {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 760;
+    }
+
+    .today-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .today-highlight {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 12px;
+      align-items: center;
+      border: 1px solid color-mix(in srgb, currentColor 11%, transparent);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--surface) 76%, transparent);
+      padding: 15px 17px;
+    }
+
+    .today-highlight-icon {
+      grid-row: span 2;
+      font-size: 1.35rem;
+    }
+
+    .today-highlight span:not(.today-highlight-icon) {
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .today-highlight strong {
+      overflow-wrap: anywhere;
+      font-size: 0.96rem;
+      line-height: 1.35;
+    }
+
+    .today-source-note {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
     .daily-number {
       display: block;
       margin: auto 0 8px;
@@ -892,6 +1031,40 @@
         min-height: 330px;
       }
 
+      .today-overview-card {
+        min-height: 0;
+      }
+
+      .today-overview-head {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .today-day-badge {
+        min-width: 0;
+        grid-template-columns: auto auto;
+        justify-content: space-between;
+        text-align: left;
+      }
+
+      .today-day-badge span {
+        align-self: center;
+        margin: 0;
+      }
+
+      .today-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .today-stat:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .today-highlights {
+        grid-template-columns: 1fr;
+      }
+
       .card-inner {
         padding: 22px;
       }
@@ -993,6 +1166,67 @@
       </nav>
 
       <section class="daily-grid" id="daily-grid" aria-label="Deine heutigen Karten">
+        <article class="card full today-overview-card" data-card="today" data-category="wissen">
+          <div class="card-inner">
+            <div class="card-top">
+              <p class="card-label">Heute im Überblick</p>
+              <div class="card-actions">
+                <button class="card-action favorite" type="button" data-favorite="today" aria-pressed="false" aria-label="Tagesübersicht als Favorit speichern">♡</button>
+                <button class="card-action share" type="button" data-share="today" aria-label="Tagesübersicht teilen">↗</button>
+              </div>
+            </div>
+
+            <div class="today-overview-head">
+              <div>
+                <p class="today-overview-date" id="today-overview-date">Heute</p>
+                <h2>Dein Tag auf einen Blick.</h2>
+              </div>
+              <div class="today-day-badge">
+                <strong id="today-day-number">1</strong>
+                <span>Tag des Jahres</span>
+              </div>
+            </div>
+
+            <div class="today-stats" aria-label="Kalenderinformationen">
+              <div class="today-stat">
+                <span class="today-stat-icon" aria-hidden="true">▣</span>
+                <div><strong id="today-week">KW 1</strong><span>Kalenderwoche</span></div>
+              </div>
+              <div class="today-stat">
+                <span class="today-stat-icon" aria-hidden="true">⌛</span>
+                <div><strong id="today-days-left">364</strong><span>Tage verbleiben</span></div>
+              </div>
+              <div class="today-stat">
+                <span class="today-stat-icon" id="today-moon-icon" aria-hidden="true">◐</span>
+                <div><strong id="today-moon">Mondphase</strong><span id="today-moon-detail">Heute Nacht</span></div>
+              </div>
+              <div class="today-stat">
+                <span class="today-stat-icon" aria-hidden="true">☀</span>
+                <div><strong id="today-sunrise">07:00</strong><span>Sonnenaufgang · Dortmund</span></div>
+              </div>
+              <div class="today-stat">
+                <span class="today-stat-icon" aria-hidden="true">☾</span>
+                <div><strong id="today-sunset">19:00</strong><span>Sonnenuntergang · Dortmund</span></div>
+              </div>
+            </div>
+
+            <div class="today-highlights">
+              <div class="today-highlight">
+                <span class="today-highlight-icon" aria-hidden="true">◎</span>
+                <span>Besonderer Tag</span>
+                <strong id="today-special">Wird geladen …</strong>
+              </div>
+              <div class="today-highlight">
+                <span class="today-highlight-icon" aria-hidden="true">♙</span>
+                <span>Namenstag in Deutschland</span>
+                <strong id="today-nameday" aria-live="polite">Wird geladen …</strong>
+              </div>
+            </div>
+
+            <p class="today-source-note" id="today-source-note">Sonnenzeiten werden lokal für Dortmund berechnet. Namenstage stammen aus einer freien Kalender-API.</p>
+          </div>
+        </article>
+
         <article class="card wide accent tall" data-card="question" data-category="fragen">
           <div class="card-inner">
             <div class="card-top">
@@ -1523,6 +1757,87 @@
         ]
       };
 
+      const specialDays = {
+        "01-01": "Neujahr",
+        "01-04": "Welttag der Brailleschrift",
+        "01-24": "Internationaler Tag der Bildung",
+        "02-02": "Welttag der Feuchtgebiete",
+        "02-04": "Weltkrebstag",
+        "02-11": "Internationaler Tag der Frauen und Mädchen in der Wissenschaft",
+        "02-13": "Welttag des Radios",
+        "02-20": "Welttag der sozialen Gerechtigkeit",
+        "02-21": "Internationaler Tag der Muttersprache",
+        "03-01": "Zero Discrimination Day",
+        "03-03": "Welttag des Artenschutzes",
+        "03-08": "Internationaler Frauentag",
+        "03-20": "Internationaler Tag des Glücks",
+        "03-21": "Welttag der Poesie · Internationaler Tag des Waldes",
+        "03-22": "Weltwassertag",
+        "04-02": "Welt-Autismus-Tag",
+        "04-07": "Weltgesundheitstag",
+        "04-22": "Tag der Erde",
+        "04-23": "Welttag des Buches",
+        "04-30": "Internationaler Tag des Jazz",
+        "05-01": "Tag der Arbeit",
+        "05-03": "Internationaler Tag der Pressefreiheit",
+        "05-15": "Internationaler Tag der Familie",
+        "05-17": "Welttag der Telekommunikation und Informationsgesellschaft",
+        "05-20": "Weltbienentag",
+        "05-21": "Welttag der kulturellen Vielfalt",
+        "05-22": "Internationaler Tag der biologischen Vielfalt",
+        "06-05": "Weltumwelttag",
+        "06-08": "Welttag der Ozeane",
+        "06-20": "Weltflüchtlingstag",
+        "06-21": "Welttag der Musik",
+        "07-11": "Weltbevölkerungstag",
+        "07-18": "Internationaler Nelson-Mandela-Tag",
+        "07-30": "Internationaler Tag der Freundschaft",
+        "08-12": "Internationaler Tag der Jugend",
+        "08-19": "Welttag der humanitären Hilfe",
+        "09-05": "Internationaler Tag der Wohltätigkeit",
+        "09-08": "Weltalphabetisierungstag",
+        "09-15": "Internationaler Tag der Demokratie",
+        "09-16": "Internationaler Tag zum Schutz der Ozonschicht",
+        "09-21": "Internationaler Tag des Friedens",
+        "09-27": "Welttourismustag",
+        "09-29": "Weltherztag · Internationaler Tag gegen Lebensmittelverschwendung",
+        "10-01": "Internationaler Tag der älteren Menschen",
+        "10-03": "Tag der Deutschen Einheit",
+        "10-05": "Welttag der Lehrkräfte",
+        "10-10": "Welttag der psychischen Gesundheit",
+        "10-16": "Welternährungstag",
+        "10-24": "Tag der Vereinten Nationen",
+        "11-10": "Welttag der Wissenschaft für Frieden und Entwicklung",
+        "11-13": "Weltnettigkeitstag",
+        "11-19": "Welttoilettentag · Internationaler Männertag",
+        "11-20": "Internationaler Tag der Kinderrechte",
+        "11-25": "Internationaler Tag gegen Gewalt an Frauen",
+        "12-01": "Welt-Aids-Tag",
+        "12-03": "Internationaler Tag der Menschen mit Behinderungen",
+        "12-05": "Internationaler Tag des Ehrenamtes",
+        "12-10": "Tag der Menschenrechte",
+        "12-18": "Internationaler Tag der Migrantinnen und Migranten",
+        "12-20": "Internationaler Tag der menschlichen Solidarität",
+        "12-24": "Heiligabend",
+        "12-25": "Erster Weihnachtstag",
+        "12-26": "Zweiter Weihnachtstag",
+        "12-31": "Silvester"
+      };
+
+      const namedayFallbacks = {
+        "02-14": "Valentin",
+        "03-19": "Josef",
+        "04-23": "Georg",
+        "06-24": "Johannes",
+        "07-26": "Anna, Joachim",
+        "09-29": "Gabriel, Gabriele, Michael, Michaela, Raphael, Raphaela",
+        "10-04": "Franz",
+        "11-11": "Martin",
+        "12-06": "Nikolaus",
+        "12-13": "Lucia",
+        "12-24": "Adam, Eva"
+      };
+
       const storage = {
         get(key, fallback) {
           try {
@@ -1632,6 +1947,158 @@
         const choices = pick(content.either, "either");
         document.querySelector("#choice-a .choice-text").textContent = choices[0];
         document.querySelector("#choice-b .choice-text").textContent = choices[1];
+      }
+
+      function getIsoWeek(date) {
+        const weekDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+        weekDate.setUTCDate(weekDate.getUTCDate() + 4 - (weekDate.getUTCDay() || 7));
+        const yearStart = new Date(Date.UTC(weekDate.getUTCFullYear(), 0, 1));
+        return Math.ceil((((weekDate - yearStart) / 86400000) + 1) / 7);
+      }
+
+      function getSunTime(date, isSunrise) {
+        const latitude = 51.5136;
+        const longitude = 7.4653;
+        const radians = (degrees) => degrees * (Math.PI / 180);
+        const degrees = (angle) => angle * (180 / Math.PI);
+        const normalize = (value, maximum) => ((value % maximum) + maximum) % maximum;
+        const startOfYear = Date.UTC(date.getUTCFullYear(), 0, 0);
+        const dayNumber = Math.floor((date.getTime() - startOfYear) / 86400000);
+        const longitudeHour = longitude / 15;
+        const approximateTime = dayNumber + (((isSunrise ? 6 : 18) - longitudeHour) / 24);
+        const meanAnomaly = (0.9856 * approximateTime) - 3.289;
+        const trueLongitude = normalize(
+          meanAnomaly + (1.916 * Math.sin(radians(meanAnomaly))) +
+          (0.02 * Math.sin(radians(2 * meanAnomaly))) + 282.634,
+          360
+        );
+
+        let rightAscension = normalize(degrees(Math.atan(0.91764 * Math.tan(radians(trueLongitude)))), 360);
+        const longitudeQuadrant = Math.floor(trueLongitude / 90) * 90;
+        const ascensionQuadrant = Math.floor(rightAscension / 90) * 90;
+        rightAscension = (rightAscension + longitudeQuadrant - ascensionQuadrant) / 15;
+
+        const sinDeclination = 0.39782 * Math.sin(radians(trueLongitude));
+        const cosDeclination = Math.cos(Math.asin(sinDeclination));
+        const cosHour = (
+          Math.cos(radians(90.833)) -
+          (sinDeclination * Math.sin(radians(latitude)))
+        ) / (cosDeclination * Math.cos(radians(latitude)));
+
+        if (cosHour > 1 || cosHour < -1) return null;
+
+        const localHour = isSunrise
+          ? (360 - degrees(Math.acos(cosHour))) / 15
+          : degrees(Math.acos(cosHour)) / 15;
+        const localMeanTime = localHour + rightAscension - (0.06571 * approximateTime) - 6.622;
+        const utcHours = normalize(localMeanTime - longitudeHour, 24);
+        const instant = new Date(Date.UTC(
+          date.getUTCFullYear(),
+          date.getUTCMonth(),
+          date.getUTCDate(),
+          0,
+          Math.round(utcHours * 60)
+        ));
+
+        return new Intl.DateTimeFormat("de-DE", {
+          timeZone: "Europe/Berlin",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }).format(instant);
+      }
+
+      function getMoonData(date) {
+        const lunarCycle = 29.53058867;
+        const knownNewMoon = Date.UTC(2000, 0, 6, 18, 14);
+        const daysSinceNewMoon = (date.getTime() - knownNewMoon) / 86400000;
+        const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle / lunarCycle;
+        const phaseIndex = Math.floor((phase * 8) + 0.5) % 8;
+        const phases = [
+          ["Neumond", "🌑"],
+          ["Zunehmende Sichel", "🌒"],
+          ["Erstes Viertel", "🌓"],
+          ["Zunehmender Mond", "🌔"],
+          ["Vollmond", "🌕"],
+          ["Abnehmender Mond", "🌖"],
+          ["Letztes Viertel", "🌗"],
+          ["Abnehmende Sichel", "🌘"]
+        ];
+        const illumination = Math.round(((1 - Math.cos(2 * Math.PI * phase)) / 2) * 100);
+        return { name: phases[phaseIndex][0], icon: phases[phaseIndex][1], illumination };
+      }
+
+      function extractGermanNamedays(payload) {
+        const candidates = [
+          payload?.data?.de,
+          payload?.data?.namedays?.de,
+          payload?.namedays?.de,
+          payload?.de
+        ];
+        const value = candidates.find((candidate) => candidate && (
+          typeof candidate === "string" ||
+          (Array.isArray(candidate) && candidate.length)
+        ));
+        if (Array.isArray(value)) return value.join(", ");
+        return typeof value === "string" ? value : "";
+      }
+
+      async function updateNameday(day, month, monthDay) {
+        const element = document.querySelector("#today-nameday");
+        const note = document.querySelector("#today-source-note");
+        const cacheKey = `heute-nameday-${monthDay}`;
+        const cached = storage.get(cacheKey, "");
+        if (cached) {
+          element.textContent = cached;
+          return;
+        }
+
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 4500);
+        try {
+          const response = await fetch(`https://nameday.abalin.net/api/V2/date?day=${day}&month=${month}`, {
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error("Namenstage konnten nicht geladen werden.");
+          const names = extractGermanNamedays(await response.json());
+          if (!names) throw new Error("Keine deutschen Namenstage gefunden.");
+          storage.set(cacheKey, names);
+          element.textContent = names;
+        } catch {
+          element.textContent = namedayFallbacks[monthDay] || "Zurzeit nicht verfügbar";
+          note.textContent = "Sonnenzeiten werden lokal für Dortmund berechnet. Der Namenstag konnte gerade nicht aktualisiert werden.";
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      }
+
+      function updateTodayOverview() {
+        const [year, month, day] = dayKey.split("-").map(Number);
+        const date = new Date(Date.UTC(year, month - 1, day, 12));
+        const startOfYear = Date.UTC(year, 0, 0);
+        const dayNumber = Math.floor((date.getTime() - startOfYear) / 86400000);
+        const daysInYear = new Date(Date.UTC(year, 1, 29)).getUTCMonth() === 1 ? 366 : 365;
+        const monthDay = dayKey.slice(5);
+        const moon = getMoonData(date);
+        const overviewDate = new Intl.DateTimeFormat("de-DE", {
+          timeZone: "Europe/Berlin",
+          weekday: "long",
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }).format(date);
+
+        document.querySelector("#today-overview-date").textContent = overviewDate;
+        document.querySelector("#today-day-number").textContent = dayNumber;
+        document.querySelector("#today-week").textContent = `KW ${getIsoWeek(date)}`;
+        document.querySelector("#today-days-left").textContent = daysInYear - dayNumber;
+        document.querySelector("#today-moon").textContent = moon.name;
+        document.querySelector("#today-moon-icon").textContent = moon.icon;
+        document.querySelector("#today-moon-detail").textContent = `${moon.illumination} % beleuchtet`;
+        document.querySelector("#today-sunrise").textContent = getSunTime(date, true) || "–";
+        document.querySelector("#today-sunset").textContent = getSunTime(date, false) || "–";
+        document.querySelector("#today-special").textContent = specialDays[monthDay] || "Ein guter Tag, etwas Neues auszuprobieren";
+        updateNameday(day, month, monthDay);
       }
 
       function updateDate() {
@@ -1959,6 +2426,7 @@
       applyDailyAccent();
       initializeTheme();
       updateDate();
+      updateTodayOverview();
       updateStreak();
       setDailyContent();
       setupAnswers();
